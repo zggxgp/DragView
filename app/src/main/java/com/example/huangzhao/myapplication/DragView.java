@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 public class DragView extends ViewGroup {
 
     private ViewDragHelper mViewHelper;
+    private View menuView;
+    private View mainView;
+
 
     private ViewDragHelper.Callback callback = new ViewDragHelper.Callback(){
         @Override
@@ -21,12 +24,18 @@ public class DragView extends ViewGroup {
 
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
-            return super.clampViewPositionHorizontal(child, left, dx);
+            return left;
         }
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
-            return super.clampViewPositionVertical(child, top, dy);
+            return 0;
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
+            mViewHelper.smoothSlideViewTo()
         }
     };
 
@@ -49,6 +58,8 @@ public class DragView extends ViewGroup {
     }
 
     private void init(Context context){
-//        mViewHelper = ViewDragHelper.create(this, ca)
+        mViewHelper = ViewDragHelper.create(this, callback);
     }
+
+
 }
